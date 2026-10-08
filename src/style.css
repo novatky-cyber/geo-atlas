@@ -1,0 +1,176 @@
+:root {
+  --bg: #f4f7fa;
+  --surface: #ffffff;
+  --text: #0b1620;
+  --muted: #3b4b5a;
+  --accent: #0057b8;
+  --accent-text: #ffffff;
+  --border: #9aabba;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #05101b;
+    --surface: #0f1e2c;
+    --text: #f2f6fa;
+    --muted: #c3d0dc;
+    --accent: #5fb0ff;
+    --accent-text: #00111f;
+    --border: #4d6478;
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+}
+
+#map {
+  position: fixed;
+  inset: 0;
+}
+
+/* --- 下部ツールバー（片手操作用。タップ領域は44px以上） --- */
+.toolbar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(12px + var(--safe-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  z-index: 10;
+}
+
+.tool {
+  min-width: 72px;
+  min-height: 56px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.tool:active {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.tool[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.tool:disabled {
+  opacity: 0.6;
+}
+
+.tool-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.tool.busy .tool-icon {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* --- トースト --- */
+#toast {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(90px + var(--safe-bottom));
+  margin: 0 auto;
+  max-width: 480px;
+  padding: 12px 16px;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+  box-shadow: var(--shadow);
+  z-index: 20;
+}
+
+/* --- 現在地マーカー --- */
+.location-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #1a73e8;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 6px rgba(26, 115, 232, 0.25);
+}
+
+/* --- MapLibre コントロールの調整 --- */
+.maplibregl-ctrl-top-left,
+.maplibregl-ctrl-top-right {
+  top: var(--safe-top);
+}
+
+.maplibregl-ctrl-group button {
+  width: 44px;
+  height: 44px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .maplibregl-ctrl-group {
+    background: var(--surface);
+  }
+  .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+    filter: invert(1);
+  }
+  .maplibregl-ctrl-attrib {
+    background: rgba(15, 30, 44, 0.85);
+    color: var(--text);
+  }
+  .maplibregl-ctrl-attrib a {
+    color: var(--muted);
+  }
+  .maplibregl-ctrl-attrib-button {
+    filter: invert(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool.busy .tool-icon {
+    animation: none;
+  }
+}
