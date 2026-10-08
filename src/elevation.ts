@@ -10,8 +10,8 @@ function tileUrl(z: number, x: number, y: number): string {
   return DEM_TILES[0].replace('{z}', String(z)).replace('{x}', String(x)).replace('{y}', String(y));
 }
 
-async function loadTile(z: number, x: number, y: number, signal?: AbortSignal): Promise<ImageData> {
-  const res = await fetch(tileUrl(z, x, y), { signal });
+async function loadTile(z: number, x: number, y: number): Promise<ImageData> {
+  const res = await fetch(tileUrl(z, x, y));
   if (!res.ok) throw new Error(`DEM tile ${res.status}`);
   const bitmap = await createImageBitmap(await res.blob());
   const canvas = document.createElement('canvas');
@@ -24,11 +24,15 @@ async function loadTile(z: number, x: number, y: number, signal?: AbortSignal): 
   return ctx.getImageData(0, 0, TILE_SIZE, TILE_SIZE);
 }
 
-function getTile(z: number, x: number, y: number, signal?: AbortSignal): Promise<ImageData> {
+/**
+ * タイル取得はタップごとの中断信号に結び付けない（キャッシュを複数のタップで共有するため）。
+ * 中断は呼び出し側で、取得後に signal を確認して扱う。
+ */
+function getTile(z: number, x: number, y: number): Promise<ImageData> {
   const key = `${z}/${x}/${y}`;
   let p = tileCache.get(key);
   if (!p) {
-    p = loadTile(z, x, y, signal);
+    p = loadTile(z, x, y);
     p.catch(() => tileCache.delete(key));
     tileCache.set(key, p);
     if (tileCache.size > TILE_CACHE_MAX) tileCache.delete(tileCache.keys().next().value!);
@@ -46,7 +50,8 @@ async function sample({ lng, lat }: LngLat, z: number, signal?: AbortSignal): Pr
   const px = Math.min(TILE_SIZE - 1, Math.floor((fx - tx) * TILE_SIZE));
   const py = Math.min(TILE_SIZE - 1, Math.floor((fy - ty) * TILE_SIZE));
 
-  const img = await getTile(z, tx, ty, signal);
+  const img = await getTile(z, tx, ty);
+  signal?.throwIfAborted();
   const i = (py * TILE_SIZE + px) * 4;
   const [r, g, b] = [img.data[i], img.data[i + 1], img.data[i + 2]];
   return r * 256 + g + b / 256 - 32768;
