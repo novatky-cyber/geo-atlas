@@ -57,12 +57,29 @@ const sheet = new BottomSheet(document.getElementById('sheet') as HTMLElement);
 const explainer = new TapExplainer(map, sheet);
 
 // 内蔵解説データの一覧（マーカーとタップ判定に使う）
-loadPlaceIndex()
-  .then((index) => {
-    explainer.setPlaces(index);
-    setPlaceMarkers(map, index);
-  })
-  .catch((err) => console.warn('[places]', err));
+// 旅先では起動時に通信が不安定なことがあるため、失敗したら間隔を空けて再試行し、
+// 通信が戻ったとき（online イベント）にも読み直す
+const PLACE_RETRY_MS = [5_000, 15_000, 60_000];
+let placesLoaded = false;
+let placeRetryTimer: number | undefined;
+function initPlaces(attempt = 0): void {
+  if (placesLoaded) return;
+  window.clearTimeout(placeRetryTimer);
+  loadPlaceIndex()
+    .then((index) => {
+      placesLoaded = true;
+      explainer.setPlaces(index);
+      setPlaceMarkers(map, index);
+    })
+    .catch((err) => {
+      console.warn('[places]', err);
+      const delay = PLACE_RETRY_MS[Math.min(attempt, PLACE_RETRY_MS.length - 1)];
+      window.clearTimeout(placeRetryTimer);
+      placeRetryTimer = window.setTimeout(() => initPlaces(attempt + 1), delay);
+    });
+}
+initPlaces();
+window.addEventListener('online', () => initPlaces());
 
 showGestureHintOnce();
 
