@@ -3,8 +3,11 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './style.css';
 import { BASEMAP_STYLE_URL, INITIAL_VIEW } from './config';
+import { TapExplainer } from './explain';
+import { showGestureHintOnce } from './hint';
 import { applyJapaneseLabels } from './labels';
 import { locateOnce } from './locate';
+import { BottomSheet } from './sheet';
 import { addTerrainSources, setTerrainEnabled } from './terrain';
 import { showToast } from './toast';
 
@@ -45,6 +48,12 @@ map.on('error', (e) => {
     showToast('地図を読み込めませんでした。通信状況を確認してください', 6000);
   }
 });
+
+// --- タップで解説（ボトムシート） ---
+const sheet = new BottomSheet(document.getElementById('sheet') as HTMLElement);
+new TapExplainer(map, sheet);
+
+showGestureHintOnce();
 
 // --- 下部ツールバー ---
 const btnGlobe = document.getElementById('btn-globe') as HTMLButtonElement;

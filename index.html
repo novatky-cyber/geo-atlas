@@ -17,6 +17,10 @@
 
     <div id="toast" role="status" aria-live="polite" hidden></div>
 
+    <div id="hint" class="hint" role="note" hidden>
+      タップで解説／2本指上下で傾き／ひねりで回転
+    </div>
+
     <nav class="toolbar" aria-label="地図操作">
       <button type="button" id="btn-globe" class="tool">
         <span class="tool-icon" aria-hidden="true">🌐</span>
@@ -31,6 +35,14 @@
         <span class="tool-label">現在地</span>
       </button>
     </nav>
+
+    <section id="sheet" class="sheet" aria-label="解説" aria-hidden="true">
+      <div class="sheet-grip">
+        <div class="sheet-handle" aria-hidden="true"></div>
+        <button type="button" class="sheet-close" aria-label="閉じる">×</button>
+      </div>
+      <div class="sheet-body"></div>
+    </section>
 
     <script type="module" src="/src/main.ts"></script>
   </body>
