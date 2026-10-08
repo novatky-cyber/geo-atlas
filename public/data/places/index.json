@@ -1,0 +1,212 @@
+[
+  {
+    "id": "akiyoshidai",
+    "name": "秋吉台",
+    "lat": 34.2333,
+    "lng": 131.3083,
+    "scale": "spot"
+  },
+  {
+    "id": "angkor",
+    "name": "アンコール",
+    "lat": 13.4125,
+    "lng": 103.867,
+    "scale": "region"
+  },
+  {
+    "id": "bergen",
+    "name": "ベルゲンとフィヨルド",
+    "lat": 60.3913,
+    "lng": 5.3221,
+    "scale": "city"
+  },
+  {
+    "id": "gotthard",
+    "name": "ゴッタルド峠",
+    "lat": 46.5594,
+    "lng": 8.5614,
+    "scale": "spot"
+  },
+  {
+    "id": "great-rift-valley",
+    "name": "大地溝帯とオルドバイ渓谷",
+    "lat": -2.9935,
+    "lng": 35.35,
+    "scale": "region"
+  },
+  {
+    "id": "hakodate",
+    "name": "函館",
+    "lat": 41.7687,
+    "lng": 140.7288,
+    "scale": "city"
+  },
+  {
+    "id": "hiroshima",
+    "name": "広島",
+    "lat": 34.3853,
+    "lng": 132.4553,
+    "scale": "city"
+  },
+  {
+    "id": "istanbul",
+    "name": "イスタンブール",
+    "lat": 41.0122,
+    "lng": 28.976,
+    "scale": "city"
+  },
+  {
+    "id": "kanmon-strait",
+    "name": "関門海峡",
+    "lat": 33.9617,
+    "lng": 130.9436,
+    "scale": "spot"
+  },
+  {
+    "id": "kofu",
+    "name": "甲府盆地",
+    "lat": 35.664,
+    "lng": 138.5684,
+    "scale": "region"
+  },
+  {
+    "id": "kurobe",
+    "name": "黒部峡谷",
+    "lat": 36.62,
+    "lng": 137.63,
+    "scale": "region"
+  },
+  {
+    "id": "kyoto",
+    "name": "京都",
+    "lat": 35.0116,
+    "lng": 135.7681,
+    "scale": "city"
+  },
+  {
+    "id": "lake-biwa",
+    "name": "琵琶湖",
+    "lat": 35.25,
+    "lng": 136.08,
+    "scale": "region"
+  },
+  {
+    "id": "loess-plateau",
+    "name": "黄土高原",
+    "lat": 36.5853,
+    "lng": 109.4897,
+    "scale": "region"
+  },
+  {
+    "id": "machu-picchu",
+    "name": "マチュ・ピチュ",
+    "lat": -13.1631,
+    "lng": -72.545,
+    "scale": "spot"
+  },
+  {
+    "id": "mongolian-steppe",
+    "name": "モンゴル高原",
+    "lat": 47.1976,
+    "lng": 102.8238,
+    "scale": "region"
+  },
+  {
+    "id": "nile",
+    "name": "ナイル川とギザ",
+    "lat": 29.9792,
+    "lng": 31.1342,
+    "scale": "region"
+  },
+  {
+    "id": "nobi-wajyu",
+    "name": "濃尾平野の輪中",
+    "lat": 35.1,
+    "lng": 136.69,
+    "scale": "region"
+  },
+  {
+    "id": "numata",
+    "name": "沼田",
+    "lat": 36.6461,
+    "lng": 139.0444,
+    "scale": "city"
+  },
+  {
+    "id": "panama",
+    "name": "パナマ地峡と運河",
+    "lat": 9.08,
+    "lng": -79.68,
+    "scale": "region"
+  },
+  {
+    "id": "paris",
+    "name": "パリ（シテ島）",
+    "lat": 48.853,
+    "lng": 2.3499,
+    "scale": "city"
+  },
+  {
+    "id": "petra",
+    "name": "ペトラ",
+    "lat": 30.3285,
+    "lng": 35.4444,
+    "scale": "spot"
+  },
+  {
+    "id": "sakurajima",
+    "name": "桜島とシラス台地",
+    "lat": 31.5853,
+    "lng": 130.6572,
+    "scale": "region"
+  },
+  {
+    "id": "sanriku",
+    "name": "三陸海岸",
+    "lat": 39.07,
+    "lng": 141.72,
+    "scale": "region"
+  },
+  {
+    "id": "santorini",
+    "name": "サントリーニ島",
+    "lat": 36.4166,
+    "lng": 25.4321,
+    "scale": "spot"
+  },
+  {
+    "id": "shuri",
+    "name": "首里",
+    "lat": 26.217,
+    "lng": 127.7195,
+    "scale": "spot"
+  },
+  {
+    "id": "tokyo",
+    "name": "東京（江戸）",
+    "lat": 35.6852,
+    "lng": 139.7528,
+    "scale": "city"
+  },
+  {
+    "id": "tottori-dunes",
+    "name": "鳥取砂丘",
+    "lat": 35.5408,
+    "lng": 134.2289,
+    "scale": "spot"
+  },
+  {
+    "id": "turpan",
+    "name": "トルファン",
+    "lat": 42.9513,
+    "lng": 89.1895,
+    "scale": "city"
+  },
+  {
+    "id": "venice",
+    "name": "ヴェネツィア",
+    "lat": 45.4408,
+    "lng": 12.3155,
+    "scale": "city"
+  }
+]

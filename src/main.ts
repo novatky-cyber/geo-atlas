@@ -7,6 +7,8 @@ import { TapExplainer } from './explain';
 import { showGestureHintOnce } from './hint';
 import { applyJapaneseLabels } from './labels';
 import { locateOnce } from './locate';
+import { addPlaceLayers, setPlaceMarkers } from './placeLayer';
+import { loadPlaceIndex } from './places';
 import { BottomSheet } from './sheet';
 import { addTerrainSources, setTerrainEnabled } from './terrain';
 import { showToast } from './toast';
@@ -38,6 +40,7 @@ map.on('style.load', () => {
   });
   addTerrainSources(map);
   applyJapaneseLabels(map);
+  addPlaceLayers(map);
 });
 
 let styleErrorShown = false;
@@ -51,7 +54,15 @@ map.on('error', (e) => {
 
 // --- タップで解説（ボトムシート） ---
 const sheet = new BottomSheet(document.getElementById('sheet') as HTMLElement);
-new TapExplainer(map, sheet);
+const explainer = new TapExplainer(map, sheet);
+
+// 内蔵解説データの一覧（マーカーとタップ判定に使う）
+loadPlaceIndex()
+  .then((index) => {
+    explainer.setPlaces(index);
+    setPlaceMarkers(map, index);
+  })
+  .catch((err) => console.warn('[places]', err));
 
 showGestureHintOnce();
 
