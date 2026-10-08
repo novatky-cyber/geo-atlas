@@ -304,6 +304,142 @@ body {
   margin-top: 8px;
 }
 
+/* --- 内蔵解説（4層） --- */
+.place-sub {
+  margin: 0 0 4px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.tag {
+  padding: 1px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.place-summary {
+  margin: 4px 0 8px;
+  font-weight: 700;
+}
+
+.layer-tabs {
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 8px 0;
+  background: var(--surface);
+  z-index: 1;
+}
+
+.layer-tabs button {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.layer-tabs button[aria-selected='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.layer-panel p {
+  margin: 4px 0 0;
+}
+
+.why-chain {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: chain;
+}
+
+.why-chain li {
+  position: relative;
+  padding: 2px 0 2px 28px;
+}
+
+.why-chain li::before {
+  counter-increment: chain;
+  content: counter(chain);
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.why-chain li + li::after {
+  content: '↓';
+  position: absolute;
+  left: 5px;
+  top: -12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.look-for,
+.sources {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.link-button {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 /* --- タップ地点のピン --- */
 .tap-pin {
   width: 16px;

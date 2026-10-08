@@ -62,13 +62,18 @@ npm run preview    # ビルド結果を確認（http://localhost:4173/geo-atlas/
 ## 解説データ（API課金ゼロの仕組み）
 
 解説文はアプリ実行時にAIで生成しない。**開発時に Claude Code が作成し、JSON としてリポジトリに保存する。**
-アプリは保存済み JSON を読むだけ。（データ形式の実装はフェーズ3）
+アプリは保存済み JSON を読むだけ。
 
 - 地点：`public/data/places/{id}.json`
 - 一覧：`public/data/places/index.json`（id・名前・緯度経度・規模のみ。マーカー表示用）
+  - **手で編集しない。** `npm run places` が各地点ファイルから自動生成する
 - 旅行パック：`public/data/trips/{trip-id}.json`（旅行ごとの地点IDリスト）
 - `scale`：`country` / `region` / `city` / `spot`
-- 各層は200〜400字。事実と解釈を区別し、通説でない因果は「〜と考えられる」と書く
+  - タップ地点がこの半径内なら内蔵解説を出す：country 300km / region 25km / city 6km / spot 2km（`src/places.ts`）
+- `landform`（任意）：地形の種類（例：盆地、扇状地、フィヨルド）。解説シートにタグとして表示
+- `note`：冒頭に作成方法と出典の検証状況を書き、続けて「要確認：」で自信のない記述を列挙する
+- 各層は200〜400字（`npm run places` が150字未満・500字超をエラー、200〜400字の範囲外を警告にする）
+- 事実と解釈を区別し、通説でない因果は「〜と考えられる」と書く
 - `sources` に出典URL、`note` に要確認箇所を書く
 - 形式の例は `docs/REQUIREMENTS.md`「4. 解説データの作り方」を参照
 
@@ -77,15 +82,17 @@ npm run preview    # ビルド結果を確認（http://localhost:4173/geo-atlas/
 1. id を決める（英小文字・ハイフン区切り。例：`lake-biwa`）。既存 id と重複しないか確認
 2. Wikipedia（日本語版優先）と一般的知識をもとに `public/data/places/{id}.json` を作成
    - 4層・`why_chain`・`look_for`（旅先で実際に見て確認できる地形ポイント）・`related`・`sources`・`note`
-3. `public/data/places/index.json` に id・名前・緯度経度・scale を追記
-4. 関連する旅行パックがあれば `public/data/trips/*.json` にも追記
+   - `related` には既存の地点 id を入れる（存在しない id はエラー）。既存地点の `related` にも必要なら追記
+3. `npm run places` を実行（検証と index.json の再生成）。警告・エラーがあれば直す
+4. 関連する旅行パックがあれば `public/data/trips/*.json` にも追記（フェーズ4以降）
 5. `npm run build` が通ることを確認し、コミットして `main` へ反映（自動デプロイされる）
+   - `npm run build` は index.json が最新でないと失敗する（CIでも同じ）
 
 ## 開発フェーズ
 
 1. **土台**（完了）：Vite + TS + MapLibre の地球儀、地形陰影、日本語地名、現在地ボタン、GitHub Pages 自動デプロイ
 2. **タップ解説**（完了）：ボトムシート（半分→全画面→閉じる）、Wikipedia ジオサーチ・要約、標高表示、初回の操作ヒント
-3. **内蔵解説データ**：データ形式の実装、初期30地点（日本15・世界15）、地点追加手順の整備
+3. **内蔵解説データ**（完了）：データ形式の実装、初期30地点（日本15・世界15）、地点追加手順の整備
 4. **PWA・オフライン**：Service Worker、旅行パックの事前ダウンロード
 5. **学習記録**：訪問済み地点の記録・表示
 
@@ -103,3 +110,6 @@ npm run preview    # ビルド結果を確認（http://localhost:4173/geo-atlas/
   （海底地形は低ズームにしか入っていない）ため、0m や取得失敗のときは z9 で読み直す
 - 傾きは2本指の上下、回転は2本指のひねりで操作できる（MapLibre 標準）。初回のみ画面上部にヒントを表示
 - Wikipedia 要約は localStorage に最大300件保存し、通信できないときは保存済みの近くの記事を表示する
+- 内蔵地点：マーカーのタップ（重なっていればタップ位置に最も近いもの）か、規模ごとの半径内のタップで4層解説を開く。
+  解説から「周辺のWikipedia記事を見る」で Wikipedia 側に切り替えられる。最後に選んだタブ（地形/営み/歴史/文化）は地点を移っても引き継ぐ
+- 初期30地点の解説は、作成時の開発環境から Wikipedia に接続できない状態で書いた。出典URLのリンク先と `note` の要確認箇所は、実機や別環境で順次確認する
